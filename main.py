@@ -26,8 +26,7 @@ class MySystemPrompt(SystemPrompt):
 
 # Initialize Gemini 2.0 Flash
 llm = ChatGoogleGenerativeAI(
-    model="gemini-2.0-flash-exp",
-    google_api_key=os.getenv("GOOGLE_API_KEY")
+    model="gemini-2.0-flash-exp"
 )
 
 # Configure browser
@@ -39,13 +38,13 @@ config = BrowserConfig(
 custom_controller = Controller()
 browser = Browser(config=config)
 
+# Create logs directory if it doesn't exist
+os.makedirs("logs", exist_ok=True)
+
 async def main():
     try:
-        # Create logs directory if it doesn't exist
-        os.makedirs("logs", exist_ok=True)
-        
         agent = Agent(
-            task="go to singulary.net and find the impressum",
+            task="@web - Please provide instructions for what you want me to do on the web",  # Default prompt for web tasks
             llm=llm,
             browser=browser,         # Reuse browser instance
             controller=custom_controller,  # Custom function registry
